@@ -100,7 +100,55 @@ public class KnightBoard{
   Returns the number of solutions from the starting position specified.
   */
   public int countSolutions(int startingRow, int startingCol){
-    return 1;
+    // illegal state exception
+    for (int r = 0; r < board.length; r++){
+      for (int c = 0; c < board[c].length; c++){
+        if (board[r][c] != 0){
+          throw new IllegalStateException("Non-zero number on your original board!");
+        }
+      }
+    }
+
+    // illegal argument exception
+    if (startingRow > board.length || startingCol > board[0].length || startingRow < 0 || startingCol < 0){
+      throw new IllegalArgumentException("No negative parameters!");
+    }
+
+    return countSolutionsHelper(startingRow, startingRow, 1);
+  }
+
+  public countSolutionsHelper(int row, int col, int stage){
+    if (board[row][col] != 0){
+      return 0;
+    }
+    if (stage == board.length * board[0].length){
+      return 1;
+    }
+    board[row][col] = stage;
+    boolean isCounted = (((
+                          countHelper(row - 2, col - 1, stage + 1) +
+                          countHelper(row - 1, col - 2, stage + 1) +
+                          ) +
+                          (
+                          countHelper(row + 1, col - 2, stage + 1) +
+                          countHelper(row + 2, col - 1, stage + 1)
+                          )
+                          ) +
+                          (
+                          (
+                          countHelper(row + 2, col + 1, stage + 1) +
+                          countHelper(row + 1, col + 2, stage + 1)
+                          ) +
+                          (
+                          countHelper(row - 1, col + 2, stage + 1) +
+                          countHelper(row - 2, col + 1, stage + 1)
+                          )
+                          )
+                          );
+
+
+
+
   }
 
 
