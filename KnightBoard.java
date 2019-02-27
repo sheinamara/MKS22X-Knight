@@ -6,9 +6,9 @@ public class KnightBoard{
   Default constructor.
   Throws IllegalArgumentException when either parameter is <= 0.
   */
-  public KnightBoard(int rows,int cols){
+  public KnightBoard(int row, int col){
     if (row < 0 || col < 0){
-      throw new IllegalArgumentException("No negative values for your board dimensions!";
+      throw new IllegalArgumentException("No negative values for your board dimensions!");
     }
     board = new int[row][col];
     for (int x = 0; x < board.length; x++){
@@ -24,7 +24,19 @@ public class KnightBoard{
   Returns the properly formatted string (see format for toString later in the post).
   */
   public String toString(){
-    return "";
+    String toReturn = "";
+    for (int r = 0; r < board.length; r++){
+      for (int c = 0; c < board[r].length; c++){
+        if (board[r][c] < 10){
+          toReturn = toReturn + " " + board[r][c] + " ";
+        }
+        else {
+          toReturn = toReturn + board[r][c] + " ";
+        }
+      }
+      toReturn = toReturn + "\n";
+    }
+    return toReturn;
   }
 
   /*
@@ -57,22 +69,22 @@ public class KnightBoard{
     }
     board[row][col] = stage;
     boolean isSolved = (((
-                          solveHelp(startingRow - 2, startingCol - 1, level + 1) ||
-                          solveHelp(startingRow - 1, startingCol - 2, level + 1)
+                          solveHelper(row - 2, col - 1, stage + 1) ||
+                          solveHelper(row - 1, col - 2, stage + 1)
                           ) ||
                           (
-                          solveHelp(startingRow + 1, startingCol - 2, level + 1) ||
-                          solveHelp(startingRow + 2, startingCol - 1, level + 1)
+                          solveHelper(row + 1, col - 2, stage + 1) ||
+                          solveHelper(row + 2, col - 1, stage + 1)
                           )
                           ) ||
                           (
                           (
-                          solveHelp(startingRow + 2, startingCol + 1, level + 1) ||
-                          solveHelp(startingRow + 1, startingCol + 2, level + 1)
+                          solveHelper(row + 2, col + 1, stage + 1) ||
+                          solveHelper(row + 1, col + 2, stage + 1)
                           ) ||
                           (
-                          solveHelp(startingRow - 1, startingCol + 2, level + 1) ||
-                          solveHelp(startingRow - 2, startingCol + 1, level + 1)
+                          solveHelper(row - 1, col + 2, stage + 1) ||
+                          solveHelper(row - 2, col + 1, stage + 1)
                           )
                           )
                           );
