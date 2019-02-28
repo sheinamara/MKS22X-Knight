@@ -114,10 +114,10 @@ public class KnightBoard{
       throw new IllegalArgumentException("No negative parameters!");
     }
 
-    return countSolutionsHelper(startingRow, startingRow, 1);
+    return countHelper(startingRow, startingRow, 1);
   }
 
-  public countSolutionsHelper(int row, int col, int stage){
+  public int countHelper(int row, int col, int stage){
     if (board[row][col] != 0){
       return 0;
     }
@@ -125,30 +125,16 @@ public class KnightBoard{
       return 1;
     }
     board[row][col] = stage;
-    boolean isCounted = (((
-                          countHelper(row - 2, col - 1, stage + 1) +
-                          countHelper(row - 1, col - 2, stage + 1) +
-                          ) +
-                          (
-                          countHelper(row + 1, col - 2, stage + 1) +
-                          countHelper(row + 2, col - 1, stage + 1)
-                          )
-                          ) +
-                          (
-                          (
-                          countHelper(row + 2, col + 1, stage + 1) +
-                          countHelper(row + 1, col + 2, stage + 1)
-                          ) +
-                          (
-                          countHelper(row - 1, col + 2, stage + 1) +
-                          countHelper(row - 2, col + 1, stage + 1)
-                          )
-                          )
-                          );
-
-
-
-
+    int isCounted = countHelper(row - 2, col - 1, stage + 1) +
+                    countHelper(row - 1, col - 2, stage + 1) +
+                    countHelper(row + 1, col - 2, stage + 1) +
+                    countHelper(row + 2, col - 1, stage + 1) +
+                    countHelper(row + 2, col + 1, stage + 1) +
+                    countHelper(row + 1, col + 2, stage + 1) +
+                    countHelper(row - 1, col + 2, stage + 1) +
+                    countHelper(row - 2, col + 1, stage + 1);
+    board[row][col] = 0;
+    return isCounted;
   }
 
 
