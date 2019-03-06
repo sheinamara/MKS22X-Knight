@@ -46,6 +46,7 @@ public class KnightBoard{
   Returns true when the board is solvable from the specified starting position.
   */
   public boolean solve(int startingRow, int startingCol){
+    /*
     // illegal state exception
     for (int r = 0; r < board.length; r++){
       for (int c = 0; c < board[c].length; c++){
@@ -54,9 +55,10 @@ public class KnightBoard{
         }
       }
     }
+    */
 
     // illegal argument exception
-    if (startingRow > board.length || startingCol > board[0].length || startingRow < 0 || startingCol < 0){
+    if (startingRow < 0 || startingCol < 0){
       throw new IllegalArgumentException("No negative parameters!");
     }
 
@@ -66,6 +68,12 @@ public class KnightBoard{
   public boolean solveHelper(int row, int col, int stage){
     if (stage > board.length * board[0].length){
       return true;
+    }
+    if ((row >= board.length || row < 0) || (col >= board[0].length || col < 0)){
+      return false;
+    }
+    if (board[row][col] != 0){
+	    return false;
     }
     board[row][col] = stage;
     boolean isSolved = (((
@@ -100,6 +108,7 @@ public class KnightBoard{
   Returns the number of solutions from the starting position specified.
   */
   public int countSolutions(int startingRow, int startingCol){
+    /*
     // illegal state exception
     for (int r = 0; r < board.length; r++){
       for (int c = 0; c < board[c].length; c++){
@@ -108,9 +117,10 @@ public class KnightBoard{
         }
       }
     }
+    */
 
     // illegal argument exception
-    if (startingRow > board.length || startingCol > board[0].length || startingRow < 0 || startingCol < 0){
+    if (startingRow < 0 || startingCol < 0){
       throw new IllegalArgumentException("No negative parameters!");
     }
 
@@ -118,6 +128,9 @@ public class KnightBoard{
   }
 
   public int countHelper(int row, int col, int stage){
+    if ((row >= board.length || row < 0) || (col >= board[0].length || col < 0)){
+      return 0;
+    }
     if (board[row][col] != 0){
       return 0;
     }
@@ -125,18 +138,40 @@ public class KnightBoard{
       return 1;
     }
     board[row][col] = stage;
-    int isCounted = countHelper(row - 2, col - 1, stage + 1) +
-                    countHelper(row - 1, col - 2, stage + 1) +
-                    countHelper(row + 1, col - 2, stage + 1) +
-                    countHelper(row + 2, col - 1, stage + 1) +
-                    countHelper(row + 2, col + 1, stage + 1) +
-                    countHelper(row + 1, col + 2, stage + 1) +
-                    countHelper(row - 1, col + 2, stage + 1) +
-                    countHelper(row - 2, col + 1, stage + 1);
+    int isCounted = (
+                    (
+                    (
+                    countHelper(row - 2, col - 1, stage + 1)
+                    +
+                    countHelper(row - 1, col - 2, stage + 1)
+                    )
+                    +
+		                (
+                    countHelper(row + 1, col - 2, stage + 1)
+                    +
+                    countHelper(row + 2, col - 1, stage + 1)
+                    )
+                    )
+                    +
+                    (
+                    (
+                    countHelper(row + 2, col + 1, stage + 1)
+                    +
+                    countHelper(row + 1, col + 2, stage + 1)
+                    )
+                    +
+		                (
+                    countHelper(row - 1, col + 2, stage + 1)
+                    +
+                    countHelper(row - 2, col + 1, stage + 1)
+                    )
+                    )
+                    );
     board[row][col] = 0;
     return isCounted;
   }
 
+// DO NOT TOUCH AFTER THIS
   // Mr. K's testing
   //testcase must be a valid index of your input/output array
   public static void runTest(int i){
@@ -166,8 +201,11 @@ public class KnightBoard{
   }
 
   public static void main(String[] args){
+    runTest(0);
     runTest(1);
     runTest(2);
-    runTest(6);
+    runTest(3);
+    runTest(4);
+
   }
 }
